@@ -1,0 +1,299 @@
+#include<iostream>
+#include<cstdio>
+using namespace std;
+long long int t[100010];
+long long int ti[100010];
+int mo[100010];
+int da[100010];
+void yj(int x,int z)
+{
+	int p=1;
+	while(p>0)
+	{
+		if(p==1||p==3||p==5||p==7||p==8||p==10||p==12)
+		{
+			if(t[x]>=31)
+			{
+				t[x]=t[x]-31;
+			}
+			else
+			{
+				mo[x]=p;
+				da[x]=t[x]+1;
+				return;
+			}
+		}
+		else if(p==2)
+		{
+			if(z==1)
+			{
+				if(t[x]>=29)
+				{
+					t[x]=t[x]-29;
+				}
+				else
+				{
+					mo[x]=p;
+					da[x]=t[x]+1;
+					return;
+				}
+			}
+			else
+			{
+				if(t[x]>=28)
+				{
+					t[x]=t[x]-28;
+				}
+				else
+				{
+					mo[x]=p;
+					da[x]=t[x]+1;
+					return;
+				}
+			}
+		}
+		else
+		{
+			if(t[x]>=30)
+			{
+				t[x]=t[x]-30;
+			}
+			else
+			{
+				mo[x]=p;
+				da[x]=t[x]+1;
+				return;
+			}
+		}
+		p++;
+	}
+}
+void jy1(int x)
+{
+	if(t[x]>=366)
+	{
+		ti[x]--;
+		t[x]=t[x]-366;
+	}
+	else
+	{
+		yj(x,1);
+		return;
+	}
+	for(int i=1;i<=3;i++)
+	{
+		if(t[x]>=365)
+		{
+			ti[x]--;
+			t[x]=t[x]-365;
+		}
+		else
+		{
+			yj(x,0);
+			return;
+		}
+	}
+	return;
+}
+void jy2(int x)
+{
+	for(int i=1;i<=3;i++)
+	{
+		if(t[x]>=365)
+		{
+			ti[x]++;
+			t[x]=t[x]-365;
+		}
+		else
+		{
+			yj(x,0);
+			return;
+		}
+	}
+	if(t[x]>=366)
+	{
+		ti[x]++;
+		t[x]=t[x]-366;
+	}
+	else
+	{
+		yj(x,1);
+		return;
+	}
+	return;
+}
+void jy3(int x)
+{
+	for(int j=1;j<=4;j++)
+	{
+	for(int k=1;k<=4;k++)
+	{
+		if(t[x]>=365)
+		{
+			ti[x]++;
+			t[x]=t[x]-365;
+		}
+		else
+		{
+			yj(x,0);
+			return;
+		}
+		if(t[x]>=366)
+		{
+			ti[x]++;
+			t[x]=t[x]-366;
+		}
+		else
+		{
+			yj(x,1);
+			return;
+		}
+		for(int i=1;i<=2;i++)
+		{
+			if(t[x]>=365)
+			{
+				ti[x]++;
+				t[x]=t[x]-365;
+			}
+			else
+			{
+				yj(x,0);
+				return;
+			}
+		}
+	}
+		for(int i=1;i<=4;i++)
+		{
+			if(j==1&&i==2)
+			{
+				if(t[x]>=366)
+			{
+				ti[x]++;
+				t[x]=t[x]-366;
+			}
+			else
+			{
+				yj(x,1);
+				return;
+			}
+			continue;
+			}
+			if(t[x]>=365)
+			{
+				ti[x]++;
+				t[x]=t[x]-365;
+			}
+			else
+			{
+				yj(x,0);
+				return;
+			}
+		}
+	for(int k=1;k<=20;k++)
+	{
+		if(t[x]>=365)
+		{
+			ti[x]++;
+			t[x]=t[x]-365;
+		}
+		else
+		{
+			yj(x,0);
+			return;
+		}
+		if(t[x]>=366)
+		{
+			ti[x]++;
+			t[x]=t[x]-366;
+		}
+		else
+		{
+			yj(x,1);
+			return;
+		}
+		for(int i=1;i<=2;i++)
+		{
+			if(t[x]>=365)
+			{
+				ti[x]++;
+				t[x]=t[x]-365;
+			}
+			else
+			{
+				yj(x,0);
+				return;
+			}
+		}
+	}
+	}
+	return;
+}
+int main()
+{
+	freopen("julian.in","r",stdin);
+	freopen("julian.out","w",stdout);
+	long long int q=0,r=0;
+	cin>>q;
+	for(int i=1;i<=q;i++)
+	{
+		scanf("%lld",&t[i]);
+	}
+	for(int i=1;i<=q;i++)
+	{
+		if(t[i]>=2299163)
+		{
+			t[i]=t[i]-2299163;
+			if(t[i]>=76)
+			{
+				t[i]=t[i]-76;
+				ti[i]=1583+t[i]/146097*400;
+				t[i]=t[i]%146097;
+				jy3(i);
+				printf("%d %d %lld\n",da[i],mo[i],ti[i]);
+			}
+			else
+			{
+				ti[i]=1582;
+				if(t[i]>=16)
+				{
+					t[i]=t[i]-16;
+					if(t[i]>=30)
+					{
+						t[i]=t[i]-30;
+						da[i]=t[i]+1;	
+						mo[i]=12;
+					}
+					else
+					{
+						da[i]=t[i]+1;	
+						mo[i]=11;
+					}
+				}
+				else
+				{
+					da[i]=15+t[i]+1;	
+					mo[i]=10;
+				}
+				printf("%d %d %lld\n",da[i],mo[i],ti[i]);
+			}
+		}
+		else if(t[i]>=1721424)
+		{
+			t[i]=t[i]-1721424;
+			ti[i]=t[i]/1461*4+1;
+			t[i]=t[i]%1461;
+			jy2(i);
+			printf("%d %d %lld\n",da[i],mo[i],ti[i]);
+		}
+		else
+		{
+			ti[i]=4713-t[i]/1461*4;
+			t[i]=t[i]%1461;
+			jy1(i);
+			printf("%d %d %lld BC\n",da[i],mo[i],ti[i]);
+		}
+	}
+	fclose(stdin);
+	fclose(stdout);
+	return 0;
+}
