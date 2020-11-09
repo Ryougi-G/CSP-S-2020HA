@@ -10,7 +10,7 @@
 
 [联动，JX省乐子（内含其他省，懒得再整理了）](https://www.luogu.com.cn/discuss/show/276154)
 
-
+[总览贴](https://www.luogu.com.cn/paste/uutz1v8f)
 
 
 
